@@ -3,19 +3,19 @@
 // focus or while the lightbox is open), arrows, dots, Esc / ← / → in the lightbox.
 (function () {
   var photos = [
+    { src: "/gallery/gallery-13.jpg", alt: "Fire glowing beside Wilson Lake after dark", caption: "Lake nights by the fire" },
     { src: "/gallery/gallery-02.jpg", alt: "Orange sunset over Wilson Lake", caption: "Sunset over Wilson Lake" },
-    { src: "/gallery/gallery-03.jpg", alt: "Exterior of the Let's Explore cabin beside Wilson Lake", caption: "Let’s Explore on Wilson Lake" },
-    { src: "/gallery/gallery-01.jpg", alt: "Shaded lakefront lawn with picnic table and water view", caption: "The lakefront lawn" },
-    { src: "/gallery/gallery-04.jpg", alt: "Sunlight filtering through trees beside the private dock", caption: "Steps from the water" },
     { src: "/gallery/gallery-05.jpg", alt: "Twilight view of Wilson Lake through tall trees", caption: "Evening at the lake" },
-    { src: "/gallery/gallery-08.jpg", alt: "Wide view of Wilson Lake from the cabin lawn", caption: "Room to slow down" },
-    { src: "/gallery/gallery-06.jpg", alt: "Fully equipped kitchen and dining area inside the cabin", caption: "Kitchen and dining area" },
+    { src: "/gallery/gallery-08.jpg", alt: "Wide view of Wilson Lake from the cabin lawn", caption: "Bare branches, open views" },
     { src: "/gallery/gallery-10.jpg", alt: "Open living area with wood floors and exposed beams", caption: "Open living space" },
+    { src: "/gallery/gallery-14.jpg", alt: "Oversized porch swing facing the lake", caption: "The porch swing" },
+    { src: "/gallery/gallery-06.jpg", alt: "Fully equipped kitchen and dining area inside the cabin", caption: "Kitchen and dining area" },
     { src: "/gallery/gallery-07.jpg", alt: "Cabin bedroom with a queen bed and lake-themed bedding", caption: "Queen bedroom" },
     { src: "/gallery/gallery-09.jpg", alt: "Cabin bedroom with twin bunk beds", caption: "Bunk room" },
     { src: "/gallery/gallery-11.jpg", alt: "Full bathroom with tub and shower", caption: "One of two full bathrooms" },
-    { src: "/gallery/gallery-14.jpg", alt: "Oversized porch swing facing the lake", caption: "The porch swing" },
-    { src: "/gallery/gallery-13.jpg", alt: "Fire glowing beside Wilson Lake after dark", caption: "Lake nights by the fire" },
+    { src: "/gallery/gallery-03.jpg", alt: "Exterior of the Let's Explore cabin beside Wilson Lake", caption: "Let’s Explore on Wilson Lake" },
+    { src: "/gallery/gallery-01.jpg", alt: "Shaded lakefront lawn with picnic table and water view", caption: "The lakefront lawn" },
+    { src: "/gallery/gallery-04.jpg", alt: "Sunlight filtering through trees beside the private dock", caption: "Steps from the water" },
     { src: "/gallery/gallery-12.jpg", alt: "Entrance sign for The Cove at Doublehead", caption: "The Cove at Doublehead" }
   ];
 
