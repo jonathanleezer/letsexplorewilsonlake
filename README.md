@@ -1,6 +1,6 @@
 # Let's Explore Lake Wilson
 
-Website for **Let's Explore**, Cabin 102 at The Cove at Doublehead on Wilson Lake (Town Creek, Alabama): <https://letsexplorewilsonlake.com>
+Website for **Let's Explore**, Cabin 102 at The Cove at Doublehead on Wilson Lake (Town Creek, Alabama): <https://www.letsexplorewilsonlake.com> (the bare domain redirects here)
 
 A plain static site: no build step, no dependencies. Vercel serves the files as-is.
 
