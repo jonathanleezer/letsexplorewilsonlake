@@ -3,7 +3,10 @@
 // focus or while the lightbox is open), arrows, dots, Esc / ← / → in the lightbox.
 (function () {
   var photos = [
+    { src: "/gallery/gallery-17.jpg", alt: "Bare winter trees silhouetted against an orange sunset over Wilson Lake", caption: "Winter sunset on Wilson Lake" },
+    { src: "/gallery/gallery-15.jpg", alt: "Stone-faced wood-burning fireplace in the cabin living room", caption: "The wood-burning fireplace" },
     { src: "/gallery/gallery-13.jpg", alt: "Fire glowing beside Wilson Lake after dark", caption: "Lake nights by the fire" },
+    { src: "/gallery/gallery-16.jpg", alt: "Living room with sofas gathered around the fireplace under exposed beams", caption: "Gathered around the fireplace" },
     { src: "/gallery/gallery-02.jpg", alt: "Orange sunset over Wilson Lake", caption: "Sunset over Wilson Lake" },
     { src: "/gallery/gallery-05.jpg", alt: "Twilight view of Wilson Lake through tall trees", caption: "Evening at the lake" },
     { src: "/gallery/gallery-08.jpg", alt: "Wide view of Wilson Lake from the cabin lawn", caption: "Bare branches, open views" },
