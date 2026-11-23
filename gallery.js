@@ -3,6 +3,7 @@
 // focus or while the lightbox is open), arrows, dots, Esc / ← / → in the lightbox.
 (function () {
   var photos = [
+    { src: "/gallery/gallery-18.jpg", alt: "Fire burning in the cabin fireplace while porch lights glow over Wilson Lake at dusk", caption: "Fireside, with the lake out the window", fit: "contain" },
     { src: "/gallery/gallery-17.jpg", alt: "Bare winter trees silhouetted against an orange sunset over Wilson Lake", caption: "Winter sunset on Wilson Lake" },
     { src: "/gallery/gallery-15.jpg", alt: "Stone-faced wood-burning fireplace in the cabin living room", caption: "The wood-burning fireplace" },
     { src: "/gallery/gallery-13.jpg", alt: "Fire glowing beside Wilson Lake after dark", caption: "Lake nights by the fire" },
@@ -44,7 +45,9 @@
 
   // ---- carousel ----
   var images = photos.map(function (p, i) {
-    return el("img", { class: "carousel-image", src: p.src, alt: "", loading: i < 2 ? "eager" : "lazy" });
+    var img = el("img", { class: "carousel-image", src: p.src, alt: "", loading: i < 2 ? "eager" : "lazy" });
+    if (p.fit) img.style.objectFit = p.fit; // e.g. "contain" for very wide photos
+    return img;
   });
   var hint = el("span", { class: "enlarge-hint" }, [document.createTextNode("View full screen "), el("b", { text: "↗" })]);
   var stage = el("button", { class: "carousel-stage", type: "button", on: { click: openLightbox } }, images.concat([hint]));
