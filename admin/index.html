@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Visitor Dashboard · Let&#x27;s Explore</title>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<style>
+:root{--ink:#173731;--deep:#12352f;--paper:#fbf5ea;--card:#fff;--line:#e4dccb;--muted:#5f726e;--ember:#cf6a2a;--good:#2f7d5b;--bar:#2c5a51}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font:15px/1.5 ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}
+header{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;padding:18px 24px;background:var(--deep);color:#f3e8d4}
+header h1{margin:0;font-size:18px;font-weight:600}
+header .controls{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+button,select,input{font:inherit}
+.btn{border:1px solid #f3e8d466;background:transparent;color:#f3e8d4;border-radius:6px;padding:6px 12px;cursor:pointer}
+.btn.on{background:#f3e8d4;color:var(--deep)}
+main{max-width:1280px;margin:0 auto;padding:20px 16px 60px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:16px}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px 16px}
+.kpi b{display:block;font-size:26px;font-weight:600;letter-spacing:-.02em}
+.kpi span{color:var(--muted);font-size:12.5px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(360px,1fr));gap:16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px 18px;min-width:0}
+.card h2{margin:0 0 10px;font-size:15px;font-weight:600}
+.card p.note{margin:-4px 0 10px;color:var(--muted);font-size:12.5px}
+.wide{grid-column:1/-1}
+table{width:100%;border-collapse:collapse;font-size:13.5px}
+th{color:var(--muted);font-weight:500;text-align:left;font-size:12px;border-bottom:1px solid var(--line);padding:6px 8px}
+td{padding:6px 8px;border-bottom:1px solid #f1ecdf;vertical-align:top}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.barcell{position:relative}
+.barcell i{position:absolute;inset:3px auto 3px 0;background:#cf6a2a22;border-radius:3px;z-index:0}
+.barcell span{position:relative}
+.days{display:flex;align-items:flex-end;gap:3px;height:140px;padding-top:6px}
+.days div{flex:1;background:var(--bar);border-radius:3px 3px 0 0;min-height:2px;position:relative}
+.days div:hover{background:var(--ember)}
+.daylabels{display:flex;justify-content:space-between;color:var(--muted);font-size:11.5px;margin-top:4px}
+tr.row{cursor:pointer}
+tr.row:hover td{background:#fbf5ea}
+.pill{display:inline-block;padding:1px 7px;border-radius:99px;font-size:11.5px;background:#e9f2ee;color:var(--good)}
+.muted{color:var(--muted)}
+.scroll{max-height:520px;overflow:auto}
+#login{max-width:420px;margin:12vh auto;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:28px}
+#login h1{margin:0 0 6px;font-size:20px}
+#login input{width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:8px;margin:12px 0}
+#login button{width:100%;padding:10px;border:0;border-radius:8px;background:var(--deep);color:#fff;cursor:pointer}
+#err{color:#a33;font-size:13px;min-height:1em}
+dialog{border:0;border-radius:12px;padding:0;width:min(760px,96vw);max-height:90vh}
+dialog::backdrop{background:#0008}
+dialog header{position:sticky;top:0}
+dialog .body{padding:16px 20px;overflow:auto;max-height:calc(90vh - 70px)}
+dialog dl{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;margin:0 0 14px;font-size:13.5px}
+dialog dt{color:var(--muted)}
+dialog dd{margin:0;word-break:break-word}
+.tl td:first-child{color:var(--muted);font-variant-numeric:tabular-nums;width:64px}
+.k-click{color:var(--ink)} .k-section{color:var(--good)} .k-booking{color:var(--ember);font-weight:600} .k-rage,.k-error{color:#a33}
+@media (max-width:600px){.grid{grid-template-columns:1fr} header{padding:14px 16px}}
+</style>
+</head>
+<body>
+<div id="login">
+  <h1>Visitor dashboard</h1>
+  <p class="muted">Enter the admin key set as <code>ADMIN_KEY</code> in Vercel.</p>
+  <form id="loginForm"><input id="key" type="password" autocomplete="current-password" placeholder="Admin key" required><button>Open dashboard</button></form>
+  <p id="err"></p>
+</div>
+<div id="app" hidden>
+  <header>
+    <h1>Let&#x27;s Explore · visitors</h1>
+    <div class="controls">
+      <span id="ranges"></span>
+      <button class="btn" id="optout" type="button"></button>
+      <button class="btn" id="logout" type="button">Sign out</button>
+    </div>
+  </header>
+  <main>
+    <div class="kpis" id="kpis"></div>
+    <div class="grid">
+      <section class="card wide"><h2>Visits per day</h2><div class="days" id="days"></div><div class="daylabels" id="daylabels"></div></section>
+      <section class="card"><h2>How far visitors get</h2><p class="note">Share of visits that reached each part of the page, and average time it was on screen.</p><table id="funnel"></table></section>
+      <section class="card"><h2>Where visits come from</h2><table id="sources"></table></section>
+      <section class="card"><h2>Locations</h2><p class="note">City-level, from Vercel's network. IP addresses are not stored.</p><div class="scroll"><table id="places"></table></div></section>
+      <section class="card"><h2>Devices</h2><table id="devices"></table></section>
+      <section class="card"><h2>Most-clicked</h2><div class="scroll"><table id="clicks"></table></div></section>
+      <section class="card"><h2>Links out</h2><p class="note">Attractions, restaurants and other sites visitors left to.</p><table id="outbound"></table></section>
+      <section class="card"><h2>Photos looked at</h2><p class="note">Photos visitors chose to view (arrows, dots, full screen). Autoplay isn't counted.</p><table id="photos"></table></section>
+      <section class="card"><h2>Frustration signals</h2><p class="note">Clicks on things that don't do anything, and rapid repeated clicks.</p><table id="dead"></table></section>
+      <section class="card"><h2>Campaigns & landing pages</h2><table id="campaigns"></table></section>
+      <section class="card"><h2>Browsers, systems & screens</h2><table id="tech"></table></section>
+      <section class="card wide"><h2>Visits</h2><p class="note">Newest first. Select a visit for its full timeline.</p><div class="scroll"><table id="visits"></table></div></section>
+    </div>
+  </main>
+</div>
+<dialog id="detail"><header><h1 id="dTitle">Visit</h1><button class="btn" id="dClose" type="button">Close</button></header><div class="body" id="dBody"></div></dialog>
+<script src="/admin/admin.js"></script>
+</body>
+</html>

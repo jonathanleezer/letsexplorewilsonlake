@@ -32,3 +32,15 @@ Every push to `main` deploys to production on Vercel. Other branches get preview
 ## History
 
 Moved Nov 2026 from a ChatGPT-built Next.js/Vinext app on Cloudflare to this static rebuild. Content and design are unchanged.
+
+## Visitor analytics (`/admin`)
+
+First-party, no cookies, no third parties. `track.js` sends what each visit does to `/api/t`; the dashboard at `/admin` reads it back through `/api/admin`.
+
+- **Recorded:** referrer / UTM campaign, device, browser, OS, screen and window size, language, time zone, city-level location (from Vercel's `x-vercel-ip-*` headers), scroll depth, time on each section, every click (label and link, with dead clicks and rage clicks flagged), gallery photos chosen, video plays and progress, booking-calendar focus, copied text, page errors, tab switches.
+- **Not recorded:** IP addresses, keystrokes or form contents, anything inside the booking widget. Visitors whose browser sends Global Privacy Control, automated browsers and bots are skipped. `/privacy` describes this; keep it in sync with `track.js`.
+- **Retention:** 90 days (Redis key expiry).
+- **Setup (once):** in Vercel → Storage, connect **Upstash for Redis** to this project (sets `KV_REST_API_URL` / `KV_REST_API_TOKEN`), and add an `ADMIN_KEY` environment variable of 16+ random characters. Redeploy. Without storage, tracking is accepted and dropped silently.
+- **Your own visits:** open `/admin` on each of your devices and press "Don't count this device".
+- **Files:** `track.js`, `api/t.js`, `api/admin.js`, `lib/analytics.cjs`, `lib/store.cjs`, `admin/`, `privacy.html`.
+- **Tests:** `node tests/analytics.test.cjs`; local site with working API: `node tests/dev-server.cjs` → http://127.0.0.1:8766 (admin key `local-admin-key-123`).

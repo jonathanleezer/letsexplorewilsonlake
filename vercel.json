@@ -4,6 +4,19 @@
   "trailingSlash": false,
   "headers": [
     {
+      "source": "/(admin|api)(.*)",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "no-store"
+        }
+      ]
+    },
+    {
       "source": "/(.*)\\.(jpg|mp4|svg)",
       "headers": [
         {

@@ -42,6 +42,13 @@
   function go(i) { index = (i + photos.length) % photos.length; render(); }
   function prev() { go(index - 1); }
   function next() { go(index + 1); }
+  // Visitor-initiated changes report to /track.js (autoplay does not).
+  function emit(a) {
+    try { document.dispatchEvent(new CustomEvent("lw:gallery", { detail: { a: a, i: index, cap: photos[index].caption } })); } catch (e) {}
+  }
+  function userGo(i, a) { go(i); emit(a); }
+  function userPrev() { userGo(index - 1, "prev"); }
+  function userNext() { userGo(index + 1, "next"); }
 
   // ---- carousel ----
   var images = photos.map(function (p, i) {
@@ -54,13 +61,13 @@
   var caption = el("p");
   var counter = el("span");
   var dots = photos.map(function (p, i) {
-    return el("button", { type: "button", "aria-label": "Show photo " + (i + 1) + ": " + p.caption, on: { click: function () { go(i); } } });
+    return el("button", { type: "button", "aria-label": "Show photo " + (i + 1) + ": " + p.caption, on: { click: function () { userGo(i, "dot"); } } });
   });
 
   shell.replaceChildren(
     stage,
-    el("button", { class: "carousel-arrow carousel-arrow-left", type: "button", "aria-label": "Previous photo", text: "‹", on: { click: prev } }),
-    el("button", { class: "carousel-arrow carousel-arrow-right", type: "button", "aria-label": "Next photo", text: "›", on: { click: next } }),
+    el("button", { class: "carousel-arrow carousel-arrow-left", type: "button", "aria-label": "Previous photo", text: "‹", on: { click: userPrev } }),
+    el("button", { class: "carousel-arrow carousel-arrow-right", type: "button", "aria-label": "Next photo", text: "›", on: { click: userNext } }),
     el("div", { class: "carousel-meta", "aria-live": "polite" }, [caption, counter]),
     el("div", { class: "carousel-dots", "aria-label": "Choose a photo" }, dots)
   );
@@ -81,23 +88,23 @@
     lbCaption = el("span");
     lbCount = el("small");
     thumbs = photos.map(function (p, i) {
-      return el("button", { type: "button", "aria-label": "View " + p.caption, on: { click: function () { go(i); } } },
+      return el("button", { type: "button", "aria-label": "View " + p.caption, on: { click: function () { userGo(i, "thumb"); } } },
         [el("img", { src: p.src, alt: "", loading: "lazy" })]);
     });
     var stop = { mousedown: function (e) { e.stopPropagation(); } };
     lightbox = el("div", { class: "lightbox", role: "dialog", "aria-modal": "true", "aria-label": "Cabin photo gallery",
       on: { mousedown: function (e) { if (e.target === lightbox) closeLightbox(); } } }, [
       el("button", { class: "lightbox-close", type: "button", "aria-label": "Close gallery", text: "×", on: { click: closeLightbox } }),
-      el("button", { class: "lightbox-arrow lightbox-arrow-left", type: "button", "aria-label": "Previous photo", text: "‹", on: { click: prev } }),
+      el("button", { class: "lightbox-arrow lightbox-arrow-left", type: "button", "aria-label": "Previous photo", text: "‹", on: { click: userPrev } }),
       el("figure", { class: "lightbox-figure", on: stop }, [lbImg, el("figcaption", {}, [lbCaption, lbCount])]),
-      el("button", { class: "lightbox-arrow lightbox-arrow-right", type: "button", "aria-label": "Next photo", text: "›", on: { click: next } }),
+      el("button", { class: "lightbox-arrow lightbox-arrow-right", type: "button", "aria-label": "Next photo", text: "›", on: { click: userNext } }),
       el("div", { class: "lightbox-thumbnails", "aria-label": "Photo thumbnails", on: stop }, thumbs)
     ]);
   }
   function onKey(e) {
     if (e.key === "Escape") closeLightbox();
-    else if (e.key === "ArrowLeft") prev();
-    else if (e.key === "ArrowRight") next();
+    else if (e.key === "ArrowLeft") userPrev();
+    else if (e.key === "ArrowRight") userNext();
   }
   function openLightbox() {
     if (!lightbox) buildLightbox();
@@ -109,6 +116,7 @@
     lightbox.querySelector(".lightbox-close").focus();
     schedule();
     render();
+    emit("open");
   }
   function closeLightbox() {
     open = false;
@@ -117,6 +125,7 @@
     window.removeEventListener("keydown", onKey);
     stage.focus();
     schedule();
+    emit("close");
   }
 
   function render() {
