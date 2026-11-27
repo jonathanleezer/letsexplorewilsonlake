@@ -1,0 +1,14 @@
+{
+  "name": "letsexplorewilsonlake",
+  "private": true,
+  "description": "Static site + visitor analytics API for letsexplorewilsonlake.com",
+  "scripts": {
+    "test": "node tests/analytics.test.cjs && node tests/postgres.test.cjs"
+  },
+  "dependencies": {
+    "@neondatabase/serverless": "1.2.0"
+  },
+  "devDependencies": {
+    "pg": "8.23.1"
+  }
+}

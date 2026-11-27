@@ -39,8 +39,9 @@ First-party, no cookies, no third parties. `track.js` sends what each visit does
 
 - **Recorded:** referrer / UTM campaign, device, browser, OS, screen and window size, language, time zone, city-level location (from Vercel's `x-vercel-ip-*` headers), scroll depth, time on each section, every click (label and link, with dead clicks and rage clicks flagged), gallery photos chosen, video plays and progress, booking-calendar focus, copied text, page errors, tab switches.
 - **Not recorded:** IP addresses, keystrokes or form contents, anything inside the booking widget. Visitors whose browser sends Global Privacy Control, automated browsers and bots are skipped. `/privacy` describes this; keep it in sync with `track.js`.
-- **Retention:** 90 days (Redis key expiry).
-- **Setup (once):** in Vercel → Storage, connect **Upstash for Redis** to this project (sets `KV_REST_API_URL` / `KV_REST_API_TOKEN`), and add an `ADMIN_KEY` environment variable of 16+ random characters. Redeploy. Without storage, tracking is accepted and dropped silently.
+- **Storage:** Neon Postgres (tables `lw_sessions`, `lw_events`, created automatically on first use).
+- **Retention:** 90 days (older visits are swept automatically).
+- **Setup (once):** in Vercel, add **Neon** from the Marketplace (free plan) and connect it to this project (sets `DATABASE_URL`), and add an `ADMIN_KEY` environment variable of 16+ random characters. Redeploy. Without a database, tracking is accepted and dropped silently.
 - **Your own visits:** open `/admin` on each of your devices and press "Don't count this device".
-- **Files:** `track.js`, `api/t.js`, `api/admin.js`, `lib/analytics.cjs`, `lib/store.cjs`, `admin/`, `privacy.html`.
-- **Tests:** `node tests/analytics.test.cjs`; local site with working API: `node tests/dev-server.cjs` → http://127.0.0.1:8766 (admin key `local-admin-key-123`).
+- **Files:** `track.js`, `api/t.js`, `api/admin.js`, `lib/analytics.cjs`, `lib/store.cjs`, `admin/`, `privacy.html`, `package.json` (Neon driver).
+- **Tests:** `npm install && npm test` (the Postgres test needs local PostgreSQL binaries and skips without them); local site with working API: `node tests/dev-server.cjs` → http://127.0.0.1:8766 (admin key `local-admin-key-123`).

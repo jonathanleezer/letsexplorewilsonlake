@@ -24,7 +24,7 @@ module.exports = async (req, res) => {
   if (req.method !== 'GET') return send(res, 405, { error: 'method' });
   if (!authorized(req)) return send(res, 403, { error: 'forbidden', message: (process.env.ADMIN_KEY || '').trim().length < 16 ? 'ADMIN_KEY is not set in Vercel (16+ characters).' : 'Wrong key.' });
   const store = module.exports.store || defaultStore();
-  if (!store) return send(res, 503, { error: 'storage', message: 'Connect Upstash Redis to this Vercel project (Storage tab).' });
+  if (!store) return send(res, 503, { error: 'storage', message: 'Connect a Neon Postgres database to this Vercel project (Storage tab), then redeploy.' });
   const q = new URL(req.url, 'http://x').searchParams;
   try {
     if (q.has('session')) {
