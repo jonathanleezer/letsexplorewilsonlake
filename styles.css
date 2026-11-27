@@ -11,3 +11,9 @@
 .final-cta h2 em{color:#f3a15f}
 @media (width<=700px){.final-cta{background-position:18%}}
 @media (prefers-reduced-motion:reduce){.hero-image,.hero:after{animation:none}}
+
+/* ---- Site credit ---- */
+footer{flex-wrap:wrap;row-gap:22px}
+.site-credit{flex-basis:100%;text-align:center;color:#eae9ddb3;border-top:1px solid #ffffff1f;margin:0;padding-top:18px}
+.site-credit a{color:#eae9dd}
+@media (width<=700px){.site-credit{text-align:left}}
